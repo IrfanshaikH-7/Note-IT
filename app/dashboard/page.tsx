@@ -2,6 +2,7 @@
 import CreateNoteDialog from "@/components/CreateNoteDialog";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { db } from "@/lib/db";
 // import { db } from "@/lib/db";
 // import { $notes } from "@/lib/db/schema";
 import { UserButton, auth } from "@clerk/nextjs";
@@ -9,12 +10,18 @@ import { UserButton, auth } from "@clerk/nextjs";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useId } from "react";
 
 type Props = {};
 
 const DashboardPage = async (props: Props) => {
   const { userId } = auth();
+  const notes = await db.note.findMany({
+    where: {
+      userId : userId!
+    }
+  })
+
 
   return (
     <>
@@ -50,7 +57,7 @@ const DashboardPage = async (props: Props) => {
           {/* display all the notes */}
           <div className="grid sm:grid-cols-3 md:grid-cols-5 grid-cols-1 gap-3">
             <CreateNoteDialog />
-            {/* {notes.map((note) => {
+            {notes.map((note) => {
               return (
                 <a href={`/notebook/${note.id}`} key={note.id}>
                   <div className="border border-stone-300 rounded-lg overflow-hidden flex flex-col hover:shadow-xl transition hover:-translate-y-1">
@@ -66,13 +73,13 @@ const DashboardPage = async (props: Props) => {
                       </h3>
                       <div className="h-1"></div>
                       <p className="text-sm text-gray-500">
-                        {new Date(note.createdAt).toLocaleDateString()}
+                        {new Date(note.createAt).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
                 </a>
               );
-            })} */}
+            })}
           </div>
         </div>
       </div>
