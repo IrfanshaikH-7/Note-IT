@@ -17,6 +17,8 @@ import { useRouter } from "next/navigation";
 
 type Props = {};
 
+export const runtime = 'edge'
+
 const CreateNoteDialog = (props: Props) => {
   const router = useRouter();
   const [input, setInput] = React.useState("");
