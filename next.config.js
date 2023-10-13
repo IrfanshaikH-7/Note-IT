@@ -1,19 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    image: {
-        remotePatterns: [
-          {
-            protocol: "https",
-            hostname: "firebasestorage.googleapis.com",
-          },
-        ],
-      },
+    images: {
+        domains: ["firebasestorage.googleapis.com"],
+    },
     typescript: {
         ignoreBuildErrors: true,
     },
     eslint: {
-        ignoreDuringBuilds: true,
-    }
+        ignoreDuringBuilds: true
+    },
+    exclude: [/node_modules/, /api/],
 }
 
 
